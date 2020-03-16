@@ -1,15 +1,13 @@
 import { useCallback, useState, useEffect } from "react";
 import axios from "axios";
 
-import { User } from "../types/user";
+import { User, SetUsersType } from "../types/user";
 import { useErrorDispatch, SET_ERROR } from "../context/ErrorProvider";
-
-type SetUserType = React.Dispatch<React.SetStateAction<User[] | []>>;
 
 const USERS_PER_PAGE = 20;
 
 const useGetUsers = (
-  setUsers: SetUserType,
+  setUsers: SetUsersType,
   setLoading: (loading: boolean) => void,
   users: User[],
   searchQuery: string
