@@ -37,6 +37,7 @@ const UserList = () => {
         "https://i.pinimg.com/564x/b5/52/bb/b552bb1061ca85ab4d1eaaf5c9ece29e.jpg"
     }
   ]);
+
   return (
     <div className={styles.container}>
       <h1>Users</h1>
