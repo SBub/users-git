@@ -3,3 +3,5 @@ export type User = {
   login: string;
   avatar_url: string;
 };
+
+export type SetUsersType = React.Dispatch<React.SetStateAction<User[]>>;
