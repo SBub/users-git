@@ -1,18 +1,29 @@
-import React, { useEffect } from "react";
+import React from "react";
+import styles from "./UserDetails.module.css";
 import { Link, useParams } from "react-router-dom";
 
-const UserDetails = () => {
-  const { id } = useParams();
+import { BASE_URL } from "../../utils/api";
 
-  useEffect(() => {
-    console.log({ id });
-  }, [id]);
+const UserDetails = () => {
+  const { username } = useParams();
 
   return (
-    <>
+    <div className={styles.container}>
       <Link to="/">Back to users</Link>
-      <h1>User Details</h1>
-    </>
+      <h2>Profile of: {username}</h2>
+      <p>
+        If you are interested to know more about this user, please visit his/her
+        GitHub page, by following{" "}
+        <a
+          href={`${BASE_URL}/${username}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          this
+        </a>{" "}
+        link
+      </p>
+    </div>
   );
 };
 

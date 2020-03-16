@@ -53,3 +53,7 @@ html {
     transform: rotate(0deg);
   }
 }
+
+a {
+  text-decoration: none;
+}

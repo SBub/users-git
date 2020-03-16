@@ -11,7 +11,7 @@ const App = () => {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={UserList} />
-          <Route path="/user/:id" component={UserDetails} />
+          <Route path="/user/:username" component={UserDetails} />
           <Route path="*" render={() => <Redirect to="/" />} />
         </Switch>
       </BrowserRouter>
