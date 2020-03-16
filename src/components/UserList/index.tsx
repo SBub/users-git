@@ -5,11 +5,12 @@ import { User as UserType } from "../../types/user";
 import Spinner from "../Spinner";
 import User from "../User/index";
 import useGetUsers from "../../hooks/useGetUsers";
-import useSearchUsers from "../../hooks/useSearchUser";
+import useSearchUsers from "../../hooks/useSearchUsers";
+import useIntersection from "../../hooks/useIntersection";
 
 const UserList = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<UserType[]>([]);
 
   const { loadMoreUsers } = useGetUsers(
@@ -30,6 +31,12 @@ const UserList = () => {
     setUsers([]);
   }, [searchQuery]);
 
+  const { setNode } = useIntersection(
+    loadMoreUsers,
+    searchMoreUsers,
+    searchQuery
+  );
+
   const handleSearchChange = (e: { target: { value: string } }) => {
     cancelRequest.current && cancelRequest.current();
     setSearchQuery(e.target.value);
@@ -44,12 +51,18 @@ const UserList = () => {
         placeholder="Search by user name"
       />
       <div className={styles.usersContainer}>
-        {users.map(user => (
-          <User key={user.id} {...user} />
-        ))}
+        {users.map((user, idx) => {
+          if (idx + 1 === users.length) {
+            return (
+              <span ref={setNode} key={user.id}>
+                <User {...user} />
+              </span>
+            );
+          }
+          return <User key={user.id} {...user} />;
+        })}
       </div>
       {loading && <Spinner />}
-      <button onClick={searchMoreUsers}>Load more</button>
     </div>
   );
 };
