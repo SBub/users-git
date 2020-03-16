@@ -30,7 +30,7 @@ const reducer = (state: State, action: Action) => {
   }
 };
 
-const ErrorProvider = ({ children }: { children: React.ReactNode }) => {
+const ErrorProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <ErrorDispatch.Provider value={dispatch}>
