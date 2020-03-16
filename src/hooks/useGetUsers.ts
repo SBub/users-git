@@ -18,6 +18,7 @@ const useGetUsers = (
   const dispatch = useErrorDispatch();
 
   const getAllUsers = useCallback(async () => {
+    setLoading(true);
     try {
       const response = await axios({
         method: "GET",

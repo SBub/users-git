@@ -22,6 +22,7 @@ const useSearchUsers = (
 
   useEffect(() => {
     const searchUsers = async () => {
+      setLoading(true);
       try {
         const response = await axios({
           method: "GET",
