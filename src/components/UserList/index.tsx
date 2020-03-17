@@ -10,7 +10,7 @@ import useIntersection from "../../hooks/useIntersection";
 
 const UserList = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState<UserType[]>([]);
 
   const { loadMoreUsers } = useGetUsers(
@@ -50,17 +50,19 @@ const UserList = () => {
         onChange={handleSearchChange}
         placeholder="Search by user name"
       />
-      <div className={styles.usersContainer}>
-        {users.map((user, idx) => {
-          if (idx + 1 === users.length) {
-            return (
-              <span ref={setNode} key={user.id}>
-                <User {...user} />
-              </span>
-            );
-          }
-          return <User key={user.id} {...user} />;
-        })}
+      <div className={styles.usersContainer} data-testid="users-list">
+        {users.length
+          ? users.map((user, idx) => {
+              if (idx + 1 === users.length) {
+                return (
+                  <span ref={setNode} key={user.id}>
+                    <User {...user} />
+                  </span>
+                );
+              }
+              return <User key={user.id} {...user} />;
+            })
+          : null}
       </div>
       {loading && <Spinner />}
     </div>

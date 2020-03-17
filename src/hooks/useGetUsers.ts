@@ -1,10 +1,11 @@
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState, useEffect, useRef } from "react";
 import axios from "axios";
 
 import { User, SetUsersType } from "../types/user";
 import { useErrorDispatch, SET_ERROR } from "../context/ErrorProvider";
 
 const USERS_PER_PAGE = 20;
+const CancelToken = axios.CancelToken;
 
 const useGetUsers = (
   setUsers: SetUsersType,
@@ -17,6 +18,8 @@ const useGetUsers = (
 
   const dispatch = useErrorDispatch();
 
+  const cancelRequest = useRef(() => {});
+
   const getAllUsers = useCallback(async () => {
     setLoading(true);
     try {
@@ -27,7 +30,8 @@ const useGetUsers = (
           since: nextFirstId,
           page: 1, // page is a contstant here; since will decide what next batch of users will be returned;
           USERS_PER_PAGE
-        }
+        },
+        cancelToken: new CancelToken(c => (cancelRequest.current = c))
       });
 
       const users = response.data;
@@ -47,6 +51,10 @@ const useGetUsers = (
     if (!searchQuery.length) {
       getAllUsers();
     }
+
+    return () => {
+      cancelRequest.current && cancelRequest.current();
+    };
   }, [getAllUsers, searchQuery.length]);
 
   // reset since propery in params object of axios
