@@ -1,7 +1,9 @@
 import React from "react";
 import styles from "./ErrorBoundary.module.css";
 
-class ErrorBoundary extends React.Component {
+type State = { hasError: boolean };
+
+class ErrorBoundary extends React.Component<{}, State> {
   state = {
     hasError: false
   };
